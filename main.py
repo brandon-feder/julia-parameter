@@ -9,17 +9,8 @@ import julia
 # Hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
-def checkArgs():
-    if not len(sys.argv) == 3:
-        print("Error: Invalid number of arguments. Arguments should be width, height")
-        exit(1)
-
 if __name__ == '__main__':
     print("Info: Program Start")
-    print("Info: Recieved the following command line arguments: {}".format(sys.argv))
-    
-    # Check command line arguments
-    checkArgs()
 
     # Create pipe
     mandelbrotMain, mandelbrotChild = multiprocessing.Pipe(True)
@@ -28,11 +19,11 @@ if __name__ == '__main__':
     # Setup processes
     mandelbrotProcess = multiprocessing.Process(
         target=mandelbrot.run, 
-        args=(int(sys.argv[1]), int(sys.argv[2]), mandelbrotChild))
+        args=(1000, 750, mandelbrotChild))
 
     juliaProcess = multiprocessing.Process(
         target=julia.run,
-        args=(int(sys.argv[1]), int(sys.argv[2]), juliaChild))
+        args=(1000, 750, juliaChild))
 
     # Start processes
     print("Info: Starting processes")
